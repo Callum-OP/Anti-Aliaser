@@ -21,8 +21,9 @@ eroded = cv2.erode(inverted, kernel, iterations=1)
 # Restore line color
 thinned = cv2.bitwise_not(eroded)
 
+
 # Blend thinned version with original image
-thinned = cv2.addWeighted(image, 0.1, thinned, 0.9, 0)
+thinned = cv2.addWeighted(image, 0.5, thinned, 0.5, 0)
 
 # Convert to BGR for anti-aliasing
 smoothed = cv2.cvtColor(thinned, cv2.COLOR_BGRA2BGR)
@@ -40,10 +41,10 @@ alpha_float = np.power(inverted_gray / 255.0, 3.0)
 alpha = (alpha_float * 255).astype(np.uint8)
 
 # Soften alpha for smoother transparency
-alpha = cv2.GaussianBlur(alpha, (3, 3), 0)
+alpha = cv2.GaussianBlur(alpha, (5, 5), 0)
 
 # Darken RGB channels so faded areas are darker and not white
-smoothed_dark = (smoothed.astype(np.float32) * (alpha[:, :, np.newaxis] / 255.0) ** 2.5).astype(np.uint8)
+smoothed_dark = (smoothed.astype(np.float32) * (alpha[:, :, np.newaxis] / 255.0) ** 5).astype(np.uint8)
 
 # Merge BGR (colour) and alpha (transparency)
 result = cv2.merge((smoothed_dark[:, :, 0], smoothed_dark[:, :, 1], smoothed_dark[:, :, 2], alpha))
@@ -78,7 +79,12 @@ thinned_bgra = (thinned_bgra.astype(np.float32) * mask).astype(np.uint8)
 
 
 # --- Overlay thin lines over result to ensure there is at least a 1 pixel solid line ---
-result = cv2.addWeighted(result, 1, thinned_bgra, 1, 0)
+result = cv2.addWeighted(result, 1, thinned_bgra, 0.7, 0)
+
+# Set threshold so pixels with alpha below this will be removed
+alpha_threshold = 70  # (0–255)
+alpha[alpha < alpha_threshold] = 0 # Zero out low-alpha pixels
+result[:, :, 3][result[:, :, 3] < alpha_threshold] = 0
 
 
 # Save result

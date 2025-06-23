@@ -1,0 +1,1 @@
+This is a simple Python program to apply anti-aliasing to an existing line drawing, by placing and naming a line drawing "LineDrawing.png" the main file will modify it and show the modified version in output.png

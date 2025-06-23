@@ -63,7 +63,7 @@ thinned_bgra = (thinned_bgra.astype(np.float32) * mask).astype(np.uint8)
 
 
 # --- Overlay thin lines over result to ensure there is at least a 1 pixel solid line ---
-result = cv2.addWeighted(result, 1, thinned_bgra, 0.4, 0)
+result = cv2.addWeighted(result, 1, thinned_bgra, 0.2, 0)
 # Remove low transparency pixels
 alpha_threshold = 70  # (0–255)
 alpha[alpha < alpha_threshold] = 0

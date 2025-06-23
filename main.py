@@ -70,15 +70,8 @@ alpha[alpha < alpha_threshold] = 0
 result[:, :, 3][result[:, :, 3] < alpha_threshold] = 0
 
 
-# --- Thin and erode the lines of copy of result to be used as a larger semi-transparent skeleton ---
-# Thin the lines
-kernel = np.ones((1, 1), np.uint8)
-result_skele = cv2.erode(result, kernel, iterations=1)
-
-# Overlay over itself to strengthen image
-result = cv2.addWeighted(result, 0.8, result_skele, 0.2, 0)
-result = cv2.addWeighted(result, 1, result, 0.1, 0)
-
+# --- Overlay over itself to strengthen image ---
+result = cv2.addWeighted(result, 1.1, result, 0, 0)
 
 
 # Save result

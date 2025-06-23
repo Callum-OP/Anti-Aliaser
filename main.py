@@ -34,7 +34,7 @@ alpha = (alpha_float * 255).astype(np.uint8)
 # Soften alpha for smoother transparency
 alpha = cv2.GaussianBlur(alpha, (5, 5), 0)
 # Darken RGB channels so faded areas are darker and not white
-smoothed_dark = (smoothed.astype(np.float32) * (alpha[:, :, np.newaxis] / 255.0) ** 6).astype(np.uint8)
+smoothed_dark = (smoothed.astype(np.float32) * (alpha[:, :, np.newaxis] / 255.0) ** 2).astype(np.uint8)
 # Merge BGR (colour) and alpha (transparency)
 result = cv2.merge((smoothed_dark[:, :, 0], smoothed_dark[:, :, 1], smoothed_dark[:, :, 2], alpha))
 
@@ -63,14 +63,20 @@ thinned_bgra = (thinned_bgra.astype(np.float32) * mask).astype(np.uint8)
 
 
 # --- Overlay thin lines over result to ensure there is at least a 1 pixel solid line ---
-result = cv2.addWeighted(result, 1, thinned_bgra, 0.4, 0)
+result = cv2.addWeighted(result, 1, thinned_bgra, 0.3, 0)
 # Remove low transparency pixels
 alpha_threshold = 70  # (0–255)
 alpha[alpha < alpha_threshold] = 0
 result[:, :, 3][result[:, :, 3] < alpha_threshold] = 0
 
+
+# --- Thin and erode the lines of copy of result to be used as a larger semi-transparent skeleton ---
+# Thin the lines
+kernel = np.ones((1, 1), np.uint8)
+result_skele = cv2.erode(result, kernel, iterations=1)
+
 # Overlay over itself to strengthen image
-result = cv2.addWeighted(result, 1.0, result, 0.1, 0)
+result = cv2.addWeighted(result, 1.0, result_skele, 0.2, 0)
 
 
 

@@ -32,7 +32,7 @@ inverted_gray = cv2.bitwise_not(gray)
 alpha_float = np.power(inverted_gray / 255.0, 2.0)
 alpha = (alpha_float * 255).astype(np.uint8)
 # Soften alpha for smoother transparency
-alpha = cv2.GaussianBlur(alpha, (5, 5), 0)
+alpha = cv2.GaussianBlur(alpha, (3, 3), sigmaX=0.6)
 # Darken RGB channels so faded areas are darker and not white
 smoothed_dark = (smoothed.astype(np.float32) * (alpha[:, :, np.newaxis] / 255.0) ** 5).astype(np.uint8)
 # Merge BGR (colour) and alpha (transparency)

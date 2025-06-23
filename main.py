@@ -7,7 +7,7 @@ import numpy as np
 image = cv2.imread('LineDrawing.png', cv2.IMREAD_UNCHANGED)
 
 
-# --- Apply anti-aliasing by thinning the lines and then blurring with GaussianBlur ---
+# --- Thin and erode the lines ---
 # Threshold to binary
 _, binary = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
 # Invert lines so they become white on black background
@@ -23,13 +23,13 @@ thinned = cv2.addWeighted(image, 0.5, thinned, 0.5, 0)
 smoothed = cv2.cvtColor(thinned, cv2.COLOR_BGRA2BGR)
 
 
-# --- Transform smooth image so that it has both transparency and semi transparency ---
+# --- Blur and transform image so that it has both transparency and semi transparency ---
 # Convert to grayscale
 gray = cv2.cvtColor(smoothed, cv2.COLOR_BGR2GRAY)
 # Invert grayscale so dark lines become bright
 inverted_gray = cv2.bitwise_not(gray)
 # Allow full transparency and semi transparency
-alpha_float = np.power(inverted_gray / 255.0, 3.0)
+alpha_float = np.power(inverted_gray / 255.0, 2.0)
 alpha = (alpha_float * 255).astype(np.uint8)
 # Soften alpha for smoother transparency
 alpha = cv2.GaussianBlur(alpha, (5, 5), 0)

@@ -22,16 +22,10 @@ eroded = cv2.erode(inverted, kernel, iterations=1)
 thinned = cv2.bitwise_not(eroded)
 
 # Blend thinned version with original image
-thinned = cv2.addWeighted(image, 0.3, thinned, 0.7, 0)
+thinned = cv2.addWeighted(image, 0.1, thinned, 0.9, 0)
 
 # Convert to BGR for anti-aliasing
-thinnedBgr = cv2.cvtColor(thinned, cv2.COLOR_BGRA2BGR)
-
-# Apply Gaussian blur for anti-aliasing
-blurred = cv2.GaussianBlur(thinnedBgr, (3, 3), sigmaX=1.2)
-
-# Blend original and blurred image
-smoothed = cv2.addWeighted(thinnedBgr, 0.8, blurred, 0.2, 0)
+smoothed = cv2.cvtColor(thinned, cv2.COLOR_BGRA2BGR)
 
 
 # --- Transform smooth image so that it has both transparency and semi transparency ---

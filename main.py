@@ -43,7 +43,7 @@ alpha = (alpha_float * 255).astype(np.uint8)
 alpha = cv2.GaussianBlur(alpha, (3, 3), 0)
 
 # Darken RGB channels so faded areas are darker and not white
-smoothed_dark = (smoothed.astype(np.float32) * (alpha[:, :, np.newaxis] / 255.0) ** 1.5).astype(np.uint8)
+smoothed_dark = (smoothed.astype(np.float32) * (alpha[:, :, np.newaxis] / 255.0) ** 2.5).astype(np.uint8)
 
 # Merge BGR (colour) and alpha (transparency)
 result = cv2.merge((smoothed_dark[:, :, 0], smoothed_dark[:, :, 1], smoothed_dark[:, :, 2], alpha))

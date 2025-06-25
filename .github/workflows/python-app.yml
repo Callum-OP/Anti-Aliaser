@@ -1,0 +1,38 @@
+# This workflow will install dependencies and then run tests.
+name: Process Line Drawing
+
+on:
+  push:
+    paths:
+      - '**.py'
+      - 'LineDrawing.png'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy opencv-contrib-python
+
+      - name: Run image processing script
+        run: |
+          python main.py
+
+      - name: Upload output image
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-image
+          path: output.png

@@ -75,4 +75,4 @@ result = cv2.addWeighted(result, 1.1, result, 0, 0)
 
 
 # Save result
-cv2.imwrite('output.png', result)
+cv2.imwrite('output/output.png', result)

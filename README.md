@@ -1,3 +1,9 @@
+# How to run
+Replace the "LineDrawing.png" file with whatever image you want (keeping the same name - "LineDrawing.png"), then simply run the file as you would any python file, eg
+  python -u "main.py"
+Although make sure your in the same directory as the file
+
+# About the program
 I wanted a program that would apply anti-aliasing to an existing digital line drawing that didn't have anti-aliasing, so I created this simple Python program.
 
 By placing and naming a file "LineDrawing.png" and running the program, it will be modified to have an anti-aliasing effect and the modified version will placed in "output.png". It does not matter if the line drawing is transparent or not as this program will automatically make the final image transparent by removing white space.

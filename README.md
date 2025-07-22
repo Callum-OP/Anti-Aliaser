@@ -1,5 +1,5 @@
 # How to run
-Visit the website, enter a png image and it will
+Visit the website, enter a png line art image and it will run, then download the image or copy to clipboard to save it.
 
 # About the program
 I wanted a program that would apply anti-aliasing to an existing digital line drawing that didn't have anti-aliasing, so I created this simple web app.
@@ -12,3 +12,4 @@ This program works by blurring the image, thinning the lines in the image and fa
 
 
 Below is a before and after image.
+<img width="800" height="500" alt="BeforeAndAfter" src="https://github.com/user-attachments/assets/928992ad-e799-46f7-9485-1637796ebd07" />

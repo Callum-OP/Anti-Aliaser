@@ -1,3 +1,4 @@
+// Get references of elements from the html page
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const upload = document.getElementById("upload");

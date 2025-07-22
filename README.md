@@ -15,6 +15,8 @@ Below is a before and after image.
 <img width="800" height="500" alt="BeforeAndAfter" src="https://github.com/user-attachments/assets/928992ad-e799-46f7-9485-1637796ebd07" />
 
 
+
 This is an image of the site itself.
-<img width="888" height="434" alt="home" src="https://github.com/user-attachments/assets/c2dff9f3-f86b-4444-b177-15ebb74dbad9" />
+<img width="903" height="443" alt="home" src="https://github.com/user-attachments/assets/f08d6b4b-edf3-4171-92d5-719175252125" />
+
 

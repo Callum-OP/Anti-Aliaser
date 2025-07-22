@@ -4,7 +4,32 @@ const ctx = canvas.getContext("2d");
 const upload = document.getElementById("upload");
 
 // --- Load image ---
-// Wait for image to be entered and read and process the image
+// Check if user pastes image directly onto site
+document.addEventListener("paste", async (event) => {
+    // Read file
+    const items = event.clipboardData.items;
+    for (const item of items) {
+    if (item.type.includes("image")) {
+        const blob = item.getAsFile();
+        const img = new Image();
+        // Once image is loaded
+        img.onload = () => {
+            // Resize html canvas to match image
+            canvas.width = img.width;
+            canvas.height = img.height;
+            // Apply a slight blur
+            ctx.filter = 'blur(0.6px)';
+            ctx.drawImage(img, 0, 0);
+            ctx.filter = 'none';
+            // Call function
+            processCanvas();
+        };
+        img.src = URL.createObjectURL(blob);
+        break;
+    }
+    }
+});
+// Wait for image to be entered via file explorer
 upload.addEventListener("change", function () {
     // Read file
     const reader = new FileReader();
@@ -40,10 +65,10 @@ function processCanvas() {
         // Calculate brightness
         const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
         // Fade pixels at edges
-        const alphaRatio = Math.pow((255 - brightness) / 255, 2.8);
-        const alpha = Math.floor(alphaRatio * 255);
+        const alphaRatio = Math.pow((255 - brightness) / 255, 2.4);
+        const alpha = Math.floor(alphaRatio * 255); // Controls how dark lines are
 
-        // Soften lines
+        // Soften lines and apply alpha
         data[i] = data[i + 1] = data[i + 2] = 0;
         data[i + 3] = alpha;
     }
